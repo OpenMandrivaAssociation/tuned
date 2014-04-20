@@ -1,0 +1,47 @@
+From 4865d6ab3fe874d57a0c9e9c871238182afaab37 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Per=20=C3=98yvind=20Karlsen=20=28proyvind=29?=
+ <proyvind@moondrake.org>
+Date: Sun, 20 Apr 2014 15:22:58 +0200
+Subject: [PATCH 2/3] get CPE string from /etc/os-release rather than the more
+ distro specific /etc/system-release-cpe
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Per Øyvind Karlsen (proyvind) <proyvind@moondrake.org>
+---
+ tuned/consts.py         | 2 +-
+ tuned/utils/commands.py | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/tuned/consts.py b/tuned/consts.py
+index 6c8dc4b..c7bf92b 100644
+--- a/tuned/consts.py
++++ b/tuned/consts.py
+@@ -14,7 +14,7 @@ LOG_FILE_COUNT = 2
+ LOG_FILE_MAXBYTES = 100*1000
+ LOG_FILE = "/var/log/tuned/tuned.log"
+ PID_FILE = "/run/tuned/tuned.pid"
+-SYSTEM_RELEASE_FILE = "/etc/system-release-cpe"
++OS_RELEASE_FILE = "/etc/os-release"
+ 
+ # default configuration
+ CFG_DEF_DYNAMIC_TUNING = True
+diff --git a/tuned/utils/commands.py b/tuned/utils/commands.py
+index 9c5d459..b6ed994 100644
+--- a/tuned/utils/commands.py
++++ b/tuned/utils/commands.py
+@@ -80,7 +80,9 @@ def recommend_profile():
+ 					if not re.match(value, execute("virt-what")[1], re.S):
+ 						match1 = False
+ 				elif option == "system":
+-					if not re.match(value, read_file(consts.SYSTEM_RELEASE_FILE), re.S):
++					regex = re.search('CPE_NAME="(.*)"', read_file(consts.OS_RELEASE_FILE))
++					cpe = ("" if regex is None else regex.groups()[0])
++					if not re.match(value, cpe, re.S):
+ 						match2 = False
+ 			if match1 and match2:
+ 				profile = section
+-- 
+1.9.0
+

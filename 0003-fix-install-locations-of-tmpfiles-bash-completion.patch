@@ -1,0 +1,80 @@
+From 78c6a61d5668666a7a53934593a5c37a1254774a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Per=20=C3=98yvind=20Karlsen=20=28proyvind=29?=
+ <proyvind@moondrake.org>
+Date: Sun, 20 Apr 2014 15:29:34 +0200
+Subject: [PATCH 3/3] fix install locations of tmpfiles & bash-completion
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Per Øyvind Karlsen (proyvind) <proyvind@moondrake.org>
+---
+ Makefile   | 10 ++++++----
+ tuned.spec |  4 ++--
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 268194e..6d6d130 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,11 +2,13 @@ NAME = tuned
+ VERSION = $(shell awk '/^Version:/ {print $$2}' tuned.spec)
+ RELEASE = $(shell awk '/^Release:/ {print $$2}' tuned.spec)
+ UNITDIR = $(shell rpm --eval '%{_unitdir}')
++TMPFILESDIR = $(shell rpm --eval '%{_tmpfilesdir}')
+ VERSIONED_NAME = $(NAME)-$(VERSION)
+ 
+ DESTDIR = /
+ PYTHON_SITELIB = /usr/lib/python2.7/site-packages
+ TUNED_PROFILESDIR = /usr/lib/tuned
++BASH_COMPLETIONS = /usr/share/bash-completion/completions/
+ 
+ archive: clean
+ 	mkdir -p $(VERSIONED_NAME)
+@@ -58,16 +60,16 @@ install:
+ 	install -m 0644 recommend.conf $(DESTDIR)$(TUNED_PROFILESDIR)/recommend.conf
+ 
+ 	# Install bash completion
+-	mkdir -p $(DESTDIR)/etc/bash_completion.d
+-	install -m 0644 tuned.bash $(DESTDIR)/etc/bash_completion.d/tuned.bash
++	mkdir -p $(DESTDIR)$(BASH_COMPLETIONS)
++	install -m 0644 tuned.bash $(DESTDIR)$(BASH_COMPLETIONS)/tuned
+ 
+ 	# log dir
+ 	mkdir -p $(DESTDIR)/var/log/tuned
+ 
+ 	# runtime directory
+ 	mkdir -p $(DESTDIR)/run/tuned
+-	mkdir -p $(DESTDIR)/etc/tmpfiles.d
+-	install -m 0644 tuned.tmpfiles $(DESTDIR)/etc/tmpfiles.d/tuned.conf
++	mkdir -p $(DESTDIR)$(TMPFILESDIR)
++	install -m 0644 tuned.tmpfiles $(DESTDIR)$(TMPFILESDIR)/tuned.conf
+ 
+ 	# systemd units
+ 	mkdir -p $(DESTDIR)$(UNITDIR)
+diff --git a/tuned.spec b/tuned.spec
+index 19eefe7..f7b2f79 100644
+--- a/tuned.spec
++++ b/tuned.spec
+@@ -98,7 +98,7 @@ sed -i 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' /etc/tuned/active_profile
+ %doc COPYING
+ %doc README
+ %doc doc/TIPS.txt
+-%{_sysconfdir}/bash_completion.d
++%{_datadir}/bash-completion/completions/tuned
+ %{python_sitelib}/tuned
+ %{_sbindir}/tuned
+ %{_sbindir}/tuned-adm
+@@ -113,8 +113,8 @@ sed -i 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' /etc/tuned/active_profile
+ %dir %{_sysconfdir}/tuned
+ %config(noreplace) %{_sysconfdir}/tuned/active_profile
+ %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
+-%{_sysconfdir}/tmpfiles.d
+ %{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
++%{_tmpfilesdir}/tuned.conf
+ %{_unitdir}/tuned.service
+ %dir %{_localstatedir}/log/tuned
+ %dir /run/tuned
+-- 
+1.9.0
+
