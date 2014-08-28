@@ -84,7 +84,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %files
 %doc AUTHORS README doc/TIPS.txt
 %{_datadir}/bash-completion/completions/tuned
-%{python_sitelib}/tuned
+%{python2_sitelib}/tuned
 %{_sbindir}/tuned
 %{_sbindir}/tuned-adm
 %exclude %{_prefix}/lib/tuned/default
