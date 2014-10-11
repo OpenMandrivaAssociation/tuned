@@ -1,3 +1,5 @@
+%define __noautoreq /usr/bin/stap
+
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.3.0
