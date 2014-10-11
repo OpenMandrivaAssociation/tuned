@@ -1,3 +1,4 @@
+%define __noautoreq /usr/bin/stap
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.3.0
@@ -9,8 +10,12 @@ URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
-Requires:	pythonegg(decorator) python-dbus python-gi pythonegg(pyudev)
-Requires:	virt-what pythonegg(configobj) cpupower
+Requires:	pythonegg(decorator)
+Requires:	python-dbus
+Requires:	python-gi
+Requires:	pythonegg(pyudev)
+Requires:	virt-what pythonegg(configobj)
+Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
 Patch2:		0003-fix-install-locations-of-tmpfiles-bash-completion.patch
