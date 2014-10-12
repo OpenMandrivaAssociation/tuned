@@ -1,11 +1,10 @@
 %define __noautoreq /usr/bin/stap
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.3.0
-%define	gitdate	20140306
-Release:	4.%{gitdate}.1
+Version:	2.4.0
+Release:	1
 License:	GPLv2+
-Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.xz
+Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
@@ -86,6 +85,8 @@ fi
 # convert active_profile from full path to name (if needed)
 sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profile
 
+%systemd_post {name}
+
 %files
 %doc AUTHORS README doc/TIPS.txt
 %{_datadir}/bash-completion/completions/tuned
@@ -137,144 +138,3 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_prefix}/lib/tuned/laptop-battery-powersave
 %{_prefix}/lib/tuned/enterprise-storage
 %{_prefix}/lib/tuned/spindown-disk
-
-%changelog
-* Sat Apr 20 2014 Per Øyvind Karlsen <proyvind@moondrake.org> 2.3.0-4.20140306.1
-- make sure to specify which interface on the DBus bus for the methods to use
-- update to latest code from git snapshot
-- fix paths for tmpfiles & bash-completions
-- adapt to cooker
-
-* Thu Mar  6 2014 Jaroslav Škarvada <jskarvad@redhat.com> - 2.3.0-3
-- added kernel-tools requirement
-  resolves: rhbz#1072981
-
-* Fri Nov  8 2013 Jaroslav Škarvada <jskarvad@redhat.com> - 2.3.0-2
-- fixed race condition in the start/stop code
-  resolves: rhbz#1028119
-- improved tuned responsiveness
-  resolves: rhbz#1028122
-
-* Wed Nov  6 2013 Jaroslav Škarvada <jskarvad@redhat.com> - 2.3.0-1
-- new-release
-  resolves: rhbz#1020743
-  - audio plugin: fixed audio settings in standard profiles
-    resolves: rhbz#1019805
-  - video plugin: fixed tunings
-  - daemon: fixed crash if preset profile is not available
-    resolves: rhbz#953128
-  - man: various updates and corrections
-  - functions: fixed usb and bluetooth handling
-  - tuned: switched to lightweighted pygobject3-base
-  - daemon: added global config for dynamic_tuning
-    resolves: rhbz#1006427
-  - utils: added pmqos-static script for debug purposes
-    resolves: rhbz#1015676
-  - throughput-performance: various fixes
-    resolves: rhbz#987570
-  - tuned: added global option update_interval
-  - plugin_cpu: added support for x86_energy_perf_policy
-    resolves: rhbz#1015675
-  - dbus: fixed KeyboardInterrupt handling
-  - plugin_cpu: added support for intel_pstate
-    resolves: rhbz#996722
-  - profiles: various fixes
-    resolves: rhbz#922068
-  - profiles: added desktop profile
-    resolves: rhbz#996723
-  - tuned-adm: implemented non DBus fallback control
-  - profiles: added sap profile
-  - tuned: lowered CPU usage due to python bug
-    resolves: rhbz#917587
-
-* Tue Mar 19 2013 Jaroslav Škarvada <jskarvad@redhat.com> - 2.2.2-1
-- new-release:
-  - cpu plugin: fixed cpupower workaround
-  - cpu plugin: fixed crash if cpupower is installed
-
-* Fri Mar  1 2013 Jaroslav Škarvada <jskarvad@redhat.com> - 2.2.1-1
-- new release:
-  - audio plugin: fixed error handling in _get_timeout
-  - removed cpupower dependency, added sysfs fallback
-  - powertop2tuned: fixed parser crash on binary garbage
-    resolves: rhbz#914933
-  - cpu plugin: dropped multicore_powersave as kernel upstream already did
-  - plugins: options manipulated by dynamic tuning are now correctly saved and restored
-  - powertop2tuned: added alias -e for --enable option
-  - powertop2tuned: new option -m, --merge-profile to select profile to merge
-  - prefer transparent_hugepage over redhat_transparent_hugepage
-  - recommend: use recommend.conf not autodetect.conf
-  - tuned.service: switched to dbus type service
-    resolves: rhbz#911445
-  - tuned: new option --pid, -P to write PID file
-  - tuned, tuned-adm: added new option --version, -v to show version
-  - disk plugin: use APM value 254 for cleanup / APM disable instead of 255
-    resolves: rhbz#905195
-  - tuned: new option --log, -l to select log file
-  - powertop2tuned: avoid circular deps in include (one level check only)
-  - powertop2tuned: do not crash if powertop is not installed
-  - net plugin: added support for wake_on_lan static tuning
-    resolves: rhbz#885504
-  - loader: fixed error handling
-  - spec: used systemd-rpm macros
-    resolves: rhbz#850347
-
-* Mon Jan 28 2013 Jan Vcelak <jvcelak@redhat.com> 2.2.0-1
-- new release:
-  - remove nobarrier from virtual-guest (data loss prevention)
-  - devices enumeration via udev, instead of manual retrieval
-  - support for dynamically inserted devices (currently disk plugin)
-  - dropped rfkill plugins (bluetooth and wifi), the code didn't work
-
-* Wed Jan  2 2013 Jaroslav Škarvada <jskarvad@redhat.com> - 2.1.2-1
-- new release:
-  - systemtap {disk,net}devstat: fix typo in usage
-  - switched to configobj parser
-  - latency-performance: disabled THP
-  - fixed fd leaks on subprocesses
-
-* Thu Dec 06 2012 Jan Vcelak <jvcelak@redhat.com> 2.1.1-1
-- fix: powertop2tuned execution
-- fix: ownership of /etc/tuned
-
-* Mon Dec 03 2012 Jan Vcelak <jvcelak@redhat.com> 2.1.0-1
-- new release:
-  - daemon: allow running without selected profile
-  - daemon: fix profile merging, allow only safe characters in profile names
-  - daemon: implement missing methods in DBus interface
-  - daemon: implement profile recommendation
-  - daemon: improve daemonization, PID file handling
-  - daemon: improved device matching in profiles, negation possible
-  - daemon: various internal improvements
-  - executables: check for EUID instead of UID
-  - executables: run python with -Es to increase security
-  - plugins: cpu - fix cpupower execution
-  - plugins: disk - fix option setting
-  - plugins: mounts - new, currently supports only barriers control
-  - plugins: sysctl - fix a bug preventing settings application
-  - powertop2tuned: speedup, fix crashes with non-C locales
-  - powertop2tuned: support for powertop 2.2 output
-  - profiles: progress on replacing scripts with plugins
-  - tuned-adm: bash completion - suggest profiles from all supported locations
-  - tuned-adm: complete switch to D-bus
-  - tuned-adm: full control to users with physical access
-
-* Mon Oct 08 2012 Jaroslav Škarvada <jskarvad@redhat.com> - 2.0.2-1
-- New version
-- Systemtap scripts moved to utils-systemtap subpackage
-
-* Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.1-4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
-
-* Tue Jun 12 2012 Jaroslav Škarvada <jskarvad@redhat.com> - 2.0.1-3
-- another powertop-2.0 compatibility fix
-  Resolves: rhbz#830415
-
-* Tue Jun 12 2012 Jan Kaluza <jkaluza@redhat.com> - 2.0.1-2
-- fixed powertop2tuned compatibility with powertop-2.0
-
-* Tue Apr 03 2012 Jaroslav Škarvada <jskarvad@redhat.com> - 2.0.1-1
-- new version
-
-* Fri Mar 30 2012 Jan Vcelak <jvcelak@redhat.com> 2.0-1
-- first stable release
