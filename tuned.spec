@@ -4,7 +4,7 @@ Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.3.0
 %define	gitdate	20140306
-Release:	4.%{gitdate}.2
+Release:	4.%{gitdate}.3
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.xz
 URL:		https://fedorahosted.org/tuned/
@@ -86,6 +86,8 @@ fi
 
 # convert active_profile from full path to name (if needed)
 sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profile
+
+%systemd_post {name}
 
 %files
 %doc AUTHORS README doc/TIPS.txt
