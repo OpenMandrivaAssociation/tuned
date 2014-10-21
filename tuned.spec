@@ -101,6 +101,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %files
 %doc AUTHORS README doc/TIPS.txt
 %{_datadir}/bash-completion/completions/tuned
+%exclude %{python2_sitelib}/tuned/gtk
 %{python2_sitelib}/tuned
 %{_sbindir}/tuned
 %{_sbindir}/tuned-adm
@@ -124,7 +125,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %dir %{_localstatedir}/log/tuned
 %dir /run/tuned
 %{_mandir}/man5/tuned*
-%{_mandir}/man7/tuned-profiles.7*
+%{_mandir}/man7/tuned-profiles*
 %{_mandir}/man8/tuned*
 %{_sysconfdir}/grub.d/00_tuned
 
