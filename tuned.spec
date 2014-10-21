@@ -1,7 +1,8 @@
 %define __noautoreq /usr/bin/stap
+
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.4.0
+Version:	2.4.1
 Release:	1
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
@@ -13,7 +14,8 @@ Requires:	pythonegg(decorator)
 Requires:	python-dbus
 Requires:	python-gi
 Requires:	pythonegg(pyudev)
-Requires:	virt-what pythonegg(configobj)
+Requires:	virt-what
+Requires:	pythonegg(configobj)
 Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
@@ -24,6 +26,16 @@ It does so by monitoring the usage of several system components periodically.
 Based on that information components will then be put into lower or higher
 power saving modes to adapt to the current usage. Currently only ethernet
 network and ATA harddisk devices are implemented.
+
+%package	gtk
+Summary:	GTK GUI for tuned
+Requires:	%{name} = %{version}-%{release}
+Requires:	powertop
+Requires:	polkit
+Requires:	python-gi
+
+%description	gtk
+GTK GUI that can control tuned and provide simple profile editor.
 
 %package	utils
 Requires:	%{name} = %{EVRD}
@@ -103,6 +115,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %dir %{_sysconfdir}/tuned
 %config(noreplace) %{_sysconfdir}/tuned/active_profile
 %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
+%config(noreplace) %{_sysconfdir}/tuned/bootcmdline
 %{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
 %{_tmpfilesdir}/tuned.conf
 %{_unitdir}/tuned.service
@@ -111,7 +124,15 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %dir %{_localstatedir}/log/tuned
 %dir /run/tuned
 %{_mandir}/man5/tuned*
+%{_mandir}/man7/tuned-profiles.7*
 %{_mandir}/man8/tuned*
+%{_sysconfdir}/grub.d/00_tuned
+
+%files gtk
+%{_sbindir}/tuned-gui
+%{python2_sitelib}/tuned/gtk
+%{_datadir}/tuned/ui
+%{_datadir}/polkit-1/actions/org.tuned.gui.policy
 
 %files utils
 %{_bindir}/powertop2tuned
