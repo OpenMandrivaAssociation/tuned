@@ -101,8 +101,8 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %files
 %doc AUTHORS README doc/TIPS.txt
 %{_datadir}/bash-completion/completions/tuned
-%exclude %{python2_sitelib}/tuned/gtk
-%{python2_sitelib}/tuned
+%exclude %{python_sitelib}/tuned/gtk
+%{python_sitelib}/tuned
 %{_sbindir}/tuned
 %{_sbindir}/tuned-adm
 %exclude %{_prefix}/lib/tuned/default
@@ -131,7 +131,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %files gtk
 %{_sbindir}/tuned-gui
-%{python2_sitelib}/tuned/gtk
+%{python_sitelib}/tuned/gtk
 %{_datadir}/tuned/ui
 %{_datadir}/polkit-1/actions/org.tuned.gui.policy
 
