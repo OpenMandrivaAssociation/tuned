@@ -17,7 +17,6 @@ Requires:	virt-what pythonegg(configobj)
 Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-Patch2:		0003-fix-install-locations-of-tmpfiles-bash-completion.patch
 
 %description
 The tuned package contains a daemon that tunes system settings dynamically.
