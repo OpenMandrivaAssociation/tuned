@@ -12,11 +12,10 @@ Signed-off-by: Per Øyvind Karlsen (proyvind) <proyvind@moondrake.org>
  tuned/admin/dbus_controller.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tuned/admin/dbus_controller.py b/tuned/admin/dbus_controller.py
-index 3523bdd..43e9674 100644
---- a/tuned/admin/dbus_controller.py
-+++ b/tuned/admin/dbus_controller.py
-@@ -23,7 +23,7 @@ class DBusController(object):
+diff -Naur a/tuned/admin/dbus_controller.py b/tuned/admin/dbus_controller.py
+--- a/tuned/admin/dbus_controller.py	2014-09-24 16:02:05.000000000 +0000
++++ b/tuned/admin/dbus_controller.py	2014-10-21 17:19:49.201481867 +0000
+@@ -24,7 +24,7 @@
  			raise TunedAdminDBusException("Cannot talk to Tuned daemon via DBus.")
  
  		try:
@@ -24,7 +23,6 @@ index 3523bdd..43e9674 100644
 +			method = self._proxy.get_dbus_method(method_name, dbus_interface=self._object_name)
  			return method(*args, **kwargs)
  		except dbus.exceptions.DBusException as dbus_exception:
- 			raise TunedAdminDBusException("DBus call to Tuned daemon failed (%s)." % str(dbus_exception))
--- 
+ 			err_str = "DBus call to Tuned daemon failed"
+--
 1.9.0
-

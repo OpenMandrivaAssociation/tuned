@@ -1,2 +1,5 @@
+removed_sources:
+  tuned-2.3.0.tar.xz: 85cbb934625d348fdaaa854dd036d97258e0259b
+  tuned-2.4.0.tar.bz2: 046e03cbde0f5e386264593a2f333c09157eaf46
 sources:
-  "tuned-2.3.0.tar.xz": 85cbb934625d348fdaaa854dd036d97258e0259b
+  tuned-2.4.1.tar.bz2: fe8c50ef57407de6f8c4637e3548c0eb86ea174f
