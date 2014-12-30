@@ -3,19 +3,19 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.4.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
-Requires:	pythonegg(decorator)
-Requires:	python-dbus
-Requires:	python-gi
-Requires:	pythonegg(pyudev)
+Requires:	python3egg(decorator)
+Requires:	python3egg(configobj)
+Requires:	python3egg(pyudev)
+Requires:	python3-dbus
+Requires:	python3-gi
 Requires:	virt-what
-Requires:	pythonegg(configobj)
 Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
@@ -32,7 +32,7 @@ Summary:	GTK GUI for tuned
 Requires:	%{name} = %{version}-%{release}
 Requires:	powertop
 Requires:	polkit
-Requires:	python-gi
+Requires:	python3-gi
 
 %description	gtk
 GTK GUI that can control tuned and provide simple profile editor.
