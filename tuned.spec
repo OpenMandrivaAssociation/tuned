@@ -15,6 +15,7 @@ Requires:	python2egg(decorator)
 Requires:	python2egg(configobj)
 Requires:	python2egg(pyudev)
 Requires:	python2-dbus
+Requires:	python2-gi
 Requires:	virt-what
 Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
@@ -32,7 +33,7 @@ Summary:	GTK GUI for tuned
 Requires:	%{name} = %{version}-%{release}
 Requires:	powertop
 Requires:	polkit
-Requires:	python3-gi
+Requires:	python2-gi
 
 %description	gtk
 GTK GUI that can control tuned and provide simple profile editor.
