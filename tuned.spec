@@ -11,9 +11,9 @@ Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	pkgconfig(python2)
-Requires:	python2egg(decorator)
-Requires:	python2egg(configobj)
-Requires:	python2egg(pyudev)
+Requires:	pythonegg(decorator)
+Requires:	pythonegg(configobj)
+Requires:	pythonegg(pyudev)
 Requires:	python2-dbus
 Requires:	python2-gi
 Requires:	virt-what
