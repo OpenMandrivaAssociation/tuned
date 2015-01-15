@@ -3,18 +3,18 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.4.1
-Release:	3
+Release:	4
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
-Requires:	python3egg(decorator)
-Requires:	python3egg(configobj)
-Requires:	python3egg(pyudev)
-Requires:	python3-dbus
-Requires:	python3-gi
+BuildRequires:	pkgconfig(python2)
+Requires:	python2egg(decorator)
+Requires:	python2egg(configobj)
+Requires:	python2egg(pyudev)
+Requires:	python2-dbus
 Requires:	virt-what
 Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
