@@ -22,6 +22,7 @@ Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
 Patch2:		tuned-2.4.1-use-py2.patch
+Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
 
 %description
 The tuned package contains a daemon that tunes system settings dynamically.

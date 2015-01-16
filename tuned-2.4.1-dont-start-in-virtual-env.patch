@@ -1,0 +1,11 @@
+diff -Naur tuned-2.4.1/tuned.service tuned-2.4.1.tpg/tuned.service
+--- tuned-2.4.1/tuned.service	2014-10-16 22:58:53.000000000 +0000
++++ tuned-2.4.1.tpg/tuned.service	2015-01-16 19:50:20.487348566 +0000
+@@ -2,6 +2,7 @@
+ Description=Dynamic System Tuning Daemon
+ After=syslog.target
+ Conflicts=cpupower.service
++ConditionVirtualization=no
+ 
+ [Service]
+ Type=dbus
