@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.4.1
-Release:	4
+Release:	5
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 URL:		https://fedorahosted.org/tuned/
@@ -14,12 +14,14 @@ BuildRequires:	pkgconfig(python2)
 Requires:	pythonegg(decorator)
 Requires:	pythonegg(configobj)
 Requires:	pythonegg(pyudev)
+Requires:	pythonegg(six)
 Requires:	python2-dbus
 Requires:	python2-gi
 Requires:	virt-what
 Requires:	cpupower
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
+Patch2:		tuned-2.4.1-use-py2.patch
 
 %description
 The tuned package contains a daemon that tunes system settings dynamically.
