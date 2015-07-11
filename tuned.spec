@@ -108,7 +108,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %files
 %doc AUTHORS README doc/TIPS.txt
-%{_datadir}/bash-completion/completions/tuned
+%{_datadir}/bash-completion/completions/tuned-adm
 %exclude %{python2_sitelib}/tuned/gtk
 %{python2_sitelib}/tuned
 %{_sbindir}/tuned
@@ -120,15 +120,20 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %exclude %{_prefix}/lib/tuned/laptop-battery-powersave
 %exclude %{_prefix}/lib/tuned/enterprise-storage
 %exclude %{_prefix}/lib/tuned/spindown-disk
+%exclude %{_mandir}/man7/tuned-profiles-compat.7*
 %{_prefix}/lib/tuned
 %dir %{_sysconfdir}/tuned
 %config(noreplace) %{_sysconfdir}/tuned/active_profile
 %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
 %config(noreplace) %{_sysconfdir}/tuned/bootcmdline
+%config(noreplace) %{_sysconfdir}/tuned/realtime-variables.conf
+%config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
+%config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
 %{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
 %{_tmpfilesdir}/tuned.conf
 %{_unitdir}/tuned.service
 %{_presetdir}/86-tuned.preset
+%{_libexecdir}/tuned/defirqaffinity.py
 
 %dir %{_localstatedir}/log/tuned
 %dir /run/tuned
@@ -167,3 +172,4 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_prefix}/lib/tuned/laptop-battery-powersave
 %{_prefix}/lib/tuned/enterprise-storage
 %{_prefix}/lib/tuned/spindown-disk
+%{_mandir}/man7/tuned-profiles-compat.7*
