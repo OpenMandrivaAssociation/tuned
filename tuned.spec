@@ -2,8 +2,8 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.4.1
-Release:	6
+Version:	2.5.0
+Release:	1
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 URL:		https://fedorahosted.org/tuned/
@@ -18,7 +18,9 @@ Requires:	pythonegg(six)
 Requires:	python2-dbus
 Requires:	python2-gi
 Requires:	virt-what
-%ifnarch %arm
+Requires:	hdparm
+Requires:	ethtool
+%ifnarch %armx
 Requires:	cpupower
 %endif
 Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
