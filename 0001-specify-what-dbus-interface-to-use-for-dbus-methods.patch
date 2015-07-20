@@ -12,11 +12,11 @@ Signed-off-by: Per Øyvind Karlsen (proyvind) <proyvind@moondrake.org>
  tuned/admin/dbus_controller.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff -Naur a/tuned/admin/dbus_controller.py b/tuned/admin/dbus_controller.py
---- a/tuned/admin/dbus_controller.py	2014-09-24 16:02:05.000000000 +0000
-+++ b/tuned/admin/dbus_controller.py	2014-10-21 17:19:49.201481867 +0000
+diff -Naur tuned-2.5.0/tuned/admin/dbus_controller.py tuned-2.5.0.tpg/tuned/admin/dbus_controller.py
+--- tuned-2.5.0/tuned/admin/dbus_controller.py	2015-05-18 16:46:29.000000000 +0000
++++ tuned-2.5.0.tpg/tuned/admin/dbus_controller.py	2015-07-11 09:29:56.122705844 +0000
 @@ -24,7 +24,7 @@
- 			raise TunedAdminDBusException("Cannot talk to Tuned daemon via DBus.")
+ 			raise TunedAdminDBusException("Cannot talk to Tuned daemon via DBus. Is Tuned daemon running?")
  
  		try:
 -			method = self._proxy.get_dbus_method(method_name)
@@ -24,5 +24,3 @@ diff -Naur a/tuned/admin/dbus_controller.py b/tuned/admin/dbus_controller.py
  			return method(*args, **kwargs)
  		except dbus.exceptions.DBusException as dbus_exception:
  			err_str = "DBus call to Tuned daemon failed"
---
-1.9.0

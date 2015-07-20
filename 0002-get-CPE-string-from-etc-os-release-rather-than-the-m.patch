@@ -14,31 +14,29 @@ Signed-off-by: Per Øyvind Karlsen (proyvind) <proyvind@moondrake.org>
  tuned/utils/commands.py | 4 +++-
  2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff -Naur a/tuned/consts.py b/tuned/consts.py
---- a/tuned/consts.py	2014-10-01 09:55:36.000000000 +0000
-+++ b/tuned/consts.py	2014-10-21 17:23:52.695130889 +0000
-@@ -27,7 +27,7 @@
+diff -Naur tuned-2.5.0/tuned/consts.py tuned-2.5.0.tpg/tuned/consts.py
+--- tuned-2.5.0/tuned/consts.py	2015-07-02 12:37:48.000000000 +0000
++++ tuned-2.5.0.tpg/tuned/consts.py	2015-07-11 09:37:00.735204414 +0000
+@@ -29,7 +29,7 @@
  LOG_FILE_MAXBYTES = 100*1000
  LOG_FILE = "/var/log/tuned/tuned.log"
  PID_FILE = "/run/tuned/tuned.pid"
 -SYSTEM_RELEASE_FILE = "/etc/system-release-cpe"
 +OS_RELEASE_FILE = "/etc/os-release"
- 
- # tuned-gui
- PREFIX_PROFILE_FACTORY = "Factory"
-diff -Naur a/tuned/utils/commands.py b/tuned/utils/commands.py
---- a/tuned/utils/commands.py	2014-09-29 09:54:16.000000000 +0000
-+++ b/tuned/utils/commands.py	2014-10-21 17:23:28.897484644 +0000
-@@ -98,7 +98,9 @@
+ # prefix for functions plugins
+ FUNCTION_PREFIX = "function_"
+ # prefix for exported environment variables when calling scripts
+diff -Naur tuned-2.5.0/tuned/utils/commands.py tuned-2.5.0.tpg/tuned/utils/commands.py
+--- tuned-2.5.0/tuned/utils/commands.py	2015-07-05 20:15:30.000000000 +0000
++++ tuned-2.5.0.tpg/tuned/utils/commands.py	2015-07-11 09:38:16.429159952 +0000
+@@ -243,7 +243,9 @@
  						if not re.match(value, self.execute("virt-what")[1], re.S):
- 							match1 = False
+ 							match = False
  					elif option == "system":
 -						if not re.match(value, self.read_file(consts.SYSTEM_RELEASE_FILE), re.S):
-+	                                       regex = re.search('CPE_NAME="(.*)"', read_file(consts.OS_RELEASE_FILE))
-+	                                       cpe = ("" if regex is None else regex.groups()[0])
-+	                                       if not re.match(value, cpe, re.S):
- 							match2 = False
- 				if match1 and match2:
- 					profile = section
---
-1.9.0
++						regex = re.search('CPE_NAME="(.*)"', read_file(consts.OS_RELEASE_FILE))
++						cpe = ("" if regex is None else regex.groups()[0])
++						if not re.match(value, cpe, re.S):
+ 							match = False
+ 					elif option[0] == "/":
+ 						if not os.path.exists(option) or not re.match(value, self.read_file(option), re.S):

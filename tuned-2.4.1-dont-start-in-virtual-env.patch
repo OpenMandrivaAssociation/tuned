@@ -1,0 +1,11 @@
+diff -Naur tuned-2.5.0/tuned.service tuned-2.5.0.tpg/tuned.service
+--- tuned-2.5.0/tuned.service	2015-06-26 15:30:58.000000000 +0000
++++ tuned-2.5.0.tpg/tuned.service	2015-07-11 09:41:21.277983700 +0000
+@@ -2,6 +2,7 @@
+ Description=Dynamic System Tuning Daemon
+ After=syslog.target systemd-sysctl.service network.target
+ Conflicts=cpupower.service
++ConditionVirtualization=no
+ 
+ [Service]
+ Type=dbus
