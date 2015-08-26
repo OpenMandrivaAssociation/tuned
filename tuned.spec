@@ -10,7 +10,7 @@ URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
-BuildRequires:	pkgconfig(python2)
+#BuildRequires:	pkgconfig(python2)
 Requires:	pythonegg(decorator)
 Requires:	pythonegg(configobj)
 Requires:	pythonegg(pyudev)

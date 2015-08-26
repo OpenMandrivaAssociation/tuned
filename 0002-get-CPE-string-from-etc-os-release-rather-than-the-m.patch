@@ -8,15 +8,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Per Ã˜yvind Karlsen (proyvind) <proyvind@moondrake.org>
+Signed-off-by: Per Ãyvind Karlsen (proyvind) <proyvind@moondrake.org>
 ---
  tuned/consts.py         | 2 +-
  tuned/utils/commands.py | 4 +++-
  2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff -Naur tuned-2.5.0/tuned/consts.py tuned-2.5.0.tpg/tuned/consts.py
---- tuned-2.5.0/tuned/consts.py	2015-07-02 12:37:48.000000000 +0000
-+++ tuned-2.5.0.tpg/tuned/consts.py	2015-07-11 09:37:00.735204414 +0000
+diff -Naur tuned-2.5.1/tuned/consts.py tuned-2.5.1.tpg/tuned/consts.py
+--- tuned-2.5.1/tuned/consts.py	2015-07-02 12:37:48.000000000 +0000
++++ tuned-2.5.1.tpg/tuned/consts.py	2015-08-26 00:40:48.202828285 +0000
 @@ -29,7 +29,7 @@
  LOG_FILE_MAXBYTES = 100*1000
  LOG_FILE = "/var/log/tuned/tuned.log"
@@ -26,17 +25,17 @@ diff -Naur tuned-2.5.0/tuned/consts.py tuned-2.5.0.tpg/tuned/consts.py
  # prefix for functions plugins
  FUNCTION_PREFIX = "function_"
  # prefix for exported environment variables when calling scripts
-diff -Naur tuned-2.5.0/tuned/utils/commands.py tuned-2.5.0.tpg/tuned/utils/commands.py
---- tuned-2.5.0/tuned/utils/commands.py	2015-07-05 20:15:30.000000000 +0000
-+++ tuned-2.5.0.tpg/tuned/utils/commands.py	2015-07-11 09:38:16.429159952 +0000
-@@ -243,7 +243,9 @@
- 						if not re.match(value, self.execute("virt-what")[1], re.S):
- 							match = False
- 					elif option == "system":
--						if not re.match(value, self.read_file(consts.SYSTEM_RELEASE_FILE), re.S):
-+						regex = re.search('CPE_NAME="(.*)"', read_file(consts.OS_RELEASE_FILE))
-+						cpe = ("" if regex is None else regex.groups()[0])
-+						if not re.match(value, cpe, re.S):
- 							match = False
- 					elif option[0] == "/":
- 						if not os.path.exists(option) or not re.match(value, self.read_file(option), re.S):
+diff -Naur tuned-2.5.1/tuned/utils/commands.py tuned-2.5.1.tpg/tuned/utils/commands.py
+--- tuned-2.5.1/tuned/utils/commands.py	2015-07-31 16:24:47.000000000 +0000
++++ tuned-2.5.1.tpg/tuned/utils/commands.py	2015-08-26 00:42:26.529380723 +0000
+@@ -246,7 +246,9 @@
+ 							if not re.match(value, self.execute("virt-what")[1], re.S):
+ 								match = False
+ 						elif option == "system":
+-							if not re.match(value, self.read_file(consts.SYSTEM_RELEASE_FILE), re.S):
++						    regex = re.search('CPE_NAME="(.*)"', read_file(consts.OS_RELEASE_FILE))
++						    cpe = ("" if regex is None else regex.groups()[0])
++						    if not re.match(value, cpe, re.S):
+ 								match = False
+ 						elif option[0] == "/":
+ 							if not os.path.exists(option) or not re.match(value, self.read_file(option), re.S):
