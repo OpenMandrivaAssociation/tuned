@@ -3,9 +3,10 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.5.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
+Source1:	governors.modules
 URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
@@ -93,6 +94,8 @@ cat > %{buildroot}%{_presetdir}/86-tuned.preset << EOF
 enable tuned.service
 EOF
 
+install -D -m644 %{SOURCE2} %{buildroot}%{_sysconfdir}/modprobe.preload.d/governors
+
 %post
 # try to autodetect the best profile for the system in case there is none preset
 if [ ! -f %{_sysconfdir}/tuned/active_profile -o -z "`cat %{_sysconfdir}/tuned/active_profile 2>/dev/null`" ]
@@ -109,6 +112,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %files
 %doc AUTHORS README doc/TIPS.txt
+%{_sysconfdir}/modprobe.preload.d/governors
 %{_datadir}/bash-completion/completions/tuned-adm
 %exclude %{python2_sitelib}/tuned/gtk
 %{python2_sitelib}/tuned
