@@ -94,7 +94,8 @@ cat > %{buildroot}%{_presetdir}/86-tuned.preset << EOF
 enable tuned.service
 EOF
 
-install -D -m644 %{SOURCE2} %{buildroot}%{_sysconfdir}/modprobe.preload.d/governors
+# (tpg) install cpu governors's modules
+install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/modprobe.preload.d/governors
 
 %post
 # try to autodetect the best profile for the system in case there is none preset
