@@ -2,8 +2,8 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.5.1
-Release:	4
+Version:	2.6.0
+Release:	1
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 Source1:	governors.modules
