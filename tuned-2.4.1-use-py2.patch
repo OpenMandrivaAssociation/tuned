@@ -1,9 +1,24 @@
-diff -Naur tuned-2.4.1/tuned.py tuned-2.4.1.tpg/tuned.py
---- tuned-2.4.1/tuned.py	2014-10-16 22:58:53.000000000 +0000
-+++ tuned-2.4.1.tpg/tuned.py	2015-01-16 19:44:14.400349152 +0000
+--- tuned-2.6.0/tuned-adm.py.0002~	2016-02-02 14:59:21.741588564 +0100
++++ tuned-2.6.0/tuned-adm.py	2016-02-02 14:59:27.168592966 +0100
 @@ -1,4 +1,4 @@
 -#!/usr/bin/python -Es
-+#!/usr/bin/python2
++#!/usr/bin/python2 -Es
+ #
+ # tuned: daemon for monitoring and adaptive tuning of system devices
+ #
+--- tuned-2.6.0/tuned-gui.py.0002~	2016-02-02 14:59:30.757595869 +0100
++++ tuned-2.6.0/tuned-gui.py	2016-02-02 14:59:34.902599213 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python2 -Es
+ # -*- coding: utf-8 -*-
+ 
+ # Copyright (C) 2014 Red Hat, Inc.
+--- tuned-2.6.0/tuned.py.0002~	2015-07-09 17:10:38.000000000 +0200
++++ tuned-2.6.0/tuned.py	2016-02-02 14:59:11.564580264 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python -Es
++#!/usr/bin/python2 -Es
  #
  # tuned: daemon for monitoring and adaptive tuning of system devices
  #
