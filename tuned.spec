@@ -22,6 +22,8 @@ Requires:	virt-what
 Requires:	hdparm
 Requires:	ethtool
 Requires:	typelib(GObject)
+Requires:	dbus
+Requires:	polkit
 %ifnarch %armx
 Requires:	cpupower
 %endif
@@ -101,9 +103,9 @@ install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/modprobe.preload.d/govern
 # try to autodetect the best profile for the system in case there is none preset
 if [ ! -f %{_sysconfdir}/tuned/active_profile -o -z "`cat %{_sysconfdir}/tuned/active_profile 2>/dev/null`" ]
 then
-	PROFILE=`%{_sbindir}/tuned-adm recommend 2>/dev/null`
-	[ "$PROFILE" ] || PROFILE=balanced
-	%{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || echo -n "$PROFILE" > %{_sysconfdir}/tuned/active_profile
+    PROFILE=`%{_sbindir}/tuned-adm recommend 2>/dev/null`
+    [ "$PROFILE" ] || PROFILE=balanced
+    %{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || echo -n "$PROFILE" > %{_sysconfdir}/tuned/active_profile
 fi
 
 # convert active_profile from full path to name (if needed)
@@ -144,6 +146,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
 %{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
+%verify(not size mtime md5) %{_sysconfdir}/modprobe.d/tuned.conf
 %{_tmpfilesdir}/tuned.conf
 %{_unitdir}/tuned.service
 %{_presetdir}/86-tuned.preset
@@ -155,12 +158,15 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_mandir}/man7/tuned-profiles*
 %{_mandir}/man8/tuned*
 %{_sysconfdir}/grub.d/00_tuned
+%{_datadir}/polkit-1/actions/com.redhat.tuned.policy
 
 %files gtk
 %{_sbindir}/tuned-gui
 %{python_sitelib}/tuned/gtk
 %{_datadir}/tuned/ui
-%{_datadir}/polkit-1/actions/org.tuned.gui.policy
+%{_datadir}/polkit-1/actions/com.redhat.tuned.gui.policy
+%{_iconsdir}/hicolor/scalable/apps/tuned.svg
+%{_datadir}/applications/tuned-gui.desktop
 
 %files utils
 %{_bindir}/powertop2tuned
