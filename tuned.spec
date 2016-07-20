@@ -2,7 +2,7 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.6.0
+Version:	2.7.0
 Release:	0.1
 License:	GPLv2+
 Group:		System/Kernel and hardware
@@ -25,7 +25,6 @@ Requires:	typelib(GObject)
 %ifnarch %armx
 Requires:	cpupower
 %endif
-Patch0:		0001-specify-what-dbus-interface-to-use-for-dbus-methods.patch
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
 Patch2:		tuned-2.4.1-dont-start-in-virtual-env.patch
 
