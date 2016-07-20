@@ -22,6 +22,8 @@ Requires:	virt-what
 Requires:	hdparm
 Requires:	ethtool
 Requires:	typelib(GObject)
+Requires:	dbus
+Requires:	polkit
 %ifnarch %armx
 Requires:	cpupower
 %endif
