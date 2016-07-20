@@ -139,6 +139,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
 %{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
+%verify(not size mtime md5) %{_sysconfdir}/modprobe.d/tuned.conf
 %{_tmpfilesdir}/tuned.conf
 %{_unitdir}/tuned.service
 %{_presetdir}/86-tuned.preset
@@ -150,12 +151,15 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_mandir}/man7/tuned-profiles*
 %{_mandir}/man8/tuned*
 %{_sysconfdir}/grub.d/00_tuned
+%{_datadir}/polkit-1/actions/com.redhat.tuned.policy
 
 %files gtk
 %{_sbindir}/tuned-gui
 %{python2_sitelib}/tuned/gtk
 %{_datadir}/tuned/ui
-%{_datadir}/polkit-1/actions/org.tuned.gui.policy
+%{_datadir}/polkit-1/actions/com.redhat.tuned.gui.policy
+%{_iconsdir}/hicolor/scalable/apps/tuned.svg
+%{_datadir}/applications/tuned-gui.desktop
 
 %files utils
 %{_bindir}/powertop2tuned
