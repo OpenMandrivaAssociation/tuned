@@ -33,9 +33,9 @@ diff -Naur tuned-2.5.1/tuned/utils/commands.py tuned-2.5.1.tpg/tuned/utils/comma
  								match = False
  						elif option == "system":
 -							if not re.match(value, self.read_file(consts.SYSTEM_RELEASE_FILE), re.S):
-+						    regex = re.search('CPE_NAME="(.*)"', read_file(consts.OS_RELEASE_FILE))
-+						    cpe = ("" if regex is None else regex.groups()[0])
-+						    if not re.match(value, cpe, re.S):
++							regex = re.search('CPE_NAME="(.*)"', read_file(consts.OS_RELEASE_FILE))
++							cpe = ("" if regex is None else regex.groups()[0])
++							if not re.match(value, cpe, re.S):
  								match = False
  						elif option[0] == "/":
  							if not os.path.exists(option) or not re.match(value, self.read_file(option), re.S):
