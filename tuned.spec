@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.7.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 Source1:	governors.modules
@@ -11,13 +11,13 @@ URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
-BuildRequires:	pkgconfig(python3)
-Requires:	python3egg(decorator)
-Requires:	python3egg(configobj)
-Requires:	python3egg(pyudev)
-Requires:	python3egg(six)
-Requires:	python-dbus
-Requires:	python-gi
+BuildRequires:	pkgconfig(python2)
+Requires:	pythonegg(decorator)
+Requires:	pythonegg(configobj)
+Requires:	pythonegg(pyudev)
+Requires:	pythonegg(six)
+Requires:	python2-dbus
+Requires:	python2-gi
 Requires:	virt-what
 Requires:	hdparm
 Requires:	ethtool
@@ -28,9 +28,9 @@ Requires:	polkit
 Requires:	cpupower
 %endif
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-#Patch2:		tuned-2.4.1-use-py2.patch
+Patch2:		tuned-2.4.1-use-py2.patch
 Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
-Patch4:		tuned-2.7.0-python3.patch
+#Patch4:		tuned-2.7.0-python3.patch
 
 %description
 The tuned package contains a daemon that tunes system settings dynamically.
@@ -44,7 +44,7 @@ Summary:	GTK GUI for tuned
 Requires:	%{name} = %{version}-%{release}
 Requires:	powertop
 Requires:	polkit
-Requires:	python-gi
+Requires:	python2-gi
 
 %description	gtk
 GTK GUI that can control tuned and provide simple profile editor.
@@ -83,9 +83,6 @@ It can be also used to fine tune your system for specific scenarios.
 
 %prep
 %setup -q
-find . -name "*.py" |xargs 2to3 -w
-# Python 3.x is WAY more picky about mixing tabs and spaces than 2.x
-find . -name "*.py" |xargs sed -i -e 's,    ,	,g'
 %apply_patches
 
 %build
@@ -108,9 +105,9 @@ install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/modprobe.preload.d/govern
 # try to autodetect the best profile for the system in case there is none preset
 if [ ! -f %{_sysconfdir}/tuned/active_profile -o -z "`cat %{_sysconfdir}/tuned/active_profile 2>/dev/null`" ]
 then
-	PROFILE=`%{_sbindir}/tuned-adm recommend 2>/dev/null`
-	[ "$PROFILE" ] || PROFILE=balanced
-	%{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || echo -n "$PROFILE" > %{_sysconfdir}/tuned/active_profile
+    PROFILE=`%{_sbindir}/tuned-adm recommend 2>/dev/null`
+    [ "$PROFILE" ] || PROFILE=balanced
+    %{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || echo -n "$PROFILE" > %{_sysconfdir}/tuned/active_profile
 fi
 
 # convert active_profile from full path to name (if needed)
@@ -124,8 +121,8 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_sysconfdir}/modprobe.preload.d/governors
 %endif
 %{_datadir}/bash-completion/completions/tuned-adm
-%exclude %{python3_sitelib}/tuned/gtk
-%{python3_sitelib}/tuned
+%exclude %{python2_sitelib}/tuned/gtk
+%{python2_sitelib}/tuned
 %{_sbindir}/tuned
 %{_sbindir}/tuned-adm
 %exclude %{_prefix}/lib/tuned/default
@@ -161,7 +158,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %files gtk
 %{_sbindir}/tuned-gui
-%{python_sitelib}/tuned/gtk
+%{python2_sitelib}/tuned/gtk
 %{_datadir}/tuned/ui
 %{_datadir}/polkit-1/actions/com.redhat.tuned.gui.policy
 %{_iconsdir}/hicolor/scalable/apps/tuned.svg
