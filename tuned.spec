@@ -2,8 +2,8 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.7.1
-Release:	2
+Version:	2.8.0
+Release:	1
 License:	GPLv2+
 Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
 Source1:	governors.modules
@@ -11,13 +11,14 @@ URL:		https://fedorahosted.org/tuned/
 Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
-BuildRequires:	pkgconfig(python2)
-Requires:	pythonegg(decorator)
-Requires:	pythonegg(configobj)
-Requires:	pythonegg(pyudev)
-Requires:	pythonegg(six)
-Requires:	python2-dbus
-Requires:	python2-gi
+BuildRequires:	pkgconfig(python3)
+BuildRequires:	python-six
+Requires:	python3egg(decorator)
+Requires:	python3egg(configobj)
+Requires:	python3egg(pyudev)
+Requires:	python3egg(six)
+Requires:	python-dbus
+Requires:	python-gi
 Requires:	virt-what
 Requires:	hdparm
 Requires:	ethtool
@@ -28,9 +29,8 @@ Requires:	polkit
 Requires:	cpupower
 %endif
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-Patch2:		tuned-2.4.1-use-py2.patch
 Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
-#Patch4:		tuned-2.7.0-python3.patch
+Patch4:		tuned-2.7.0-python3.patch
 
 %description
 The tuned package contains a daemon that tunes system settings dynamically.
@@ -138,6 +138,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %config(noreplace) %{_sysconfdir}/tuned/active_profile
 %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
 %config(noreplace) %{_sysconfdir}/tuned/bootcmdline
+%config(noreplace) %{_sysconfdir}/tuned/cpu-partitioning-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
