@@ -12,6 +12,7 @@ Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	pkgconfig(python3)
+BuildRequires:	python-six
 Requires:	python3egg(decorator)
 Requires:	python3egg(configobj)
 Requires:	python3egg(pyudev)
