@@ -28,7 +28,6 @@ Requires:	polkit
 Requires:	cpupower
 %endif
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-#Patch2:		tuned-2.4.1-use-py2.patch
 Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
 Patch4:		tuned-2.7.0-python3.patch
 
