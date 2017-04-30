@@ -1,19 +1,7 @@
-diff -Naur tuned-2.8.0/Makefile tuned-2.8.0.tpg/Makefile
---- tuned-2.8.0/Makefile	2017-04-11 14:05:16.000000000 +0000
-+++ tuned-2.8.0.tpg/Makefile	2017-04-29 21:29:15.256193107 +0000
-@@ -29,7 +29,7 @@
- 
- DATADIR = /usr/share
- DOCDIR = $(DATADIR)/doc/$(NAME)
--PYTHON_SITELIB = $(shell python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib();' || echo /usr/lib/python2.7/site-packages)
-+PYTHON_SITELIB = $(shell python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib());' || echo /usr/lib/python2.7/site-packages)
- TUNED_PROFILESDIR = /usr/lib/tuned
- BASH_COMPLETIONS = $(DATADIR)/bash-completion/completions
- 
-diff -Naur tuned-2.8.0/tuned/daemon/application.py tuned-2.8.0.tpg/tuned/daemon/application.py
---- tuned-2.8.0/tuned/daemon/application.py	2017-04-29 21:03:15.138214904 +0000
-+++ tuned-2.8.0.tpg/tuned/daemon/application.py	2017-04-29 21:27:46.470189724 +0000
-@@ -100,7 +100,7 @@
+diff -urN tuned-2.7.0-py2/tuned/daemon/application.py tuned-2.7.0/tuned/daemon/application.py
+--- tuned-2.7.0-py2/tuned/daemon/application.py	2016-07-21 13:09:29.928220992 +0200
++++ tuned-2.7.0/tuned/daemon/application.py	2016-07-21 15:13:29.714573047 +0200
+@@ -97,7 +97,7 @@
  				os.makedirs(dir_name)
  
  			fd = os.open(self._pid_file, os.O_CREAT|os.O_TRUNC|os.O_WRONLY , 0o644)
@@ -22,21 +10,9 @@ diff -Naur tuned-2.8.0/tuned/daemon/application.py tuned-2.8.0.tpg/tuned/daemon/
  			os.close(fd)
  		except (OSError,IOError) as error:
  			log.critical("cannot write the PID to %s: %s" % (self._pid_file, str(error)))
-diff -Naur tuned-2.8.0/tuned/plugins/plugin_sysctl.py tuned-2.8.0.tpg/tuned/plugins/plugin_sysctl.py
---- tuned-2.8.0/tuned/plugins/plugin_sysctl.py	2017-04-29 21:03:15.139214904 +0000
-+++ tuned-2.8.0.tpg/tuned/plugins/plugin_sysctl.py	2017-04-29 21:31:19.733197851 +0000
-@@ -74,7 +74,7 @@
- 	def _read_sysctl(self, option):
- 		retcode, stdout = self._execute_sysctl(["-e", option])
- 		if retcode == 0:
--			parts = [self._cmd.remove_ws(value) for value in stdout.split("=", 1)]
-+			parts = [self._cmd.remove_ws(str(value)) for value in stdout.split(b"=", 1)]
- 			if len(parts) == 2:
- 				option, value = parts
- 				return value
-diff -Naur tuned-2.8.0/tuned/profiles/variables.py tuned-2.8.0.tpg/tuned/profiles/variables.py
---- tuned-2.8.0/tuned/profiles/variables.py	2017-04-29 21:03:15.134214904 +0000
-+++ tuned-2.8.0.tpg/tuned/profiles/variables.py	2017-04-29 21:28:40.896191798 +0000
+diff -urN tuned-2.7.0-py2/tuned/profiles/variables.py tuned-2.7.0/tuned/profiles/variables.py
+--- tuned-2.7.0-py2/tuned/profiles/variables.py	2016-07-21 13:09:30.929228011 +0200
++++ tuned-2.7.0/tuned/profiles/variables.py	2016-07-21 15:14:19.315828743 +0200
 @@ -1,7 +1,7 @@
  import os
  import re
@@ -45,4 +21,26 @@ diff -Naur tuned-2.8.0/tuned/profiles/variables.py tuned-2.8.0.tpg/tuned/profile
 +from .functions import functions
  import tuned.consts as consts
  from tuned.utils.commands import commands
- from configobj import ConfigObj, ConfigObjError
+ from configobj import ConfigObj
+--- tuned-2.7.0/Makefile.omv~	2016-07-21 15:16:28.053626107 +0200
++++ tuned-2.7.0/Makefile	2016-07-21 15:16:42.668756462 +0200
+@@ -25,7 +25,7 @@ VERSIONED_NAME = $(NAME)-$(VERSION)$(GIT
+ 
+ DATADIR = /usr/share
+ DOCDIR = $(DATADIR)/doc/$(NAME)
+-PYTHON_SITELIB = $(shell python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib();' || echo /usr/lib/python2.7/site-packages)
++PYTHON_SITELIB = $(shell python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib());' || echo /usr/lib/python2.7/site-packages)
+ TUNED_PROFILESDIR = /usr/lib/tuned
+ BASH_COMPLETIONS = $(DATADIR)/bash-completion/completions
+ 
+--- tuned-2.7.0/tuned/plugins/plugin_sysctl.py.omv~	2016-07-21 17:22:17.639461665 +0200
++++ tuned-2.7.0/tuned/plugins/plugin_sysctl.py	2016-07-21 17:22:44.328635628 +0200
+@@ -74,7 +74,7 @@ class SysctlPlugin(base.Plugin):
+ 	def _read_sysctl(self, option):
+ 		retcode, stdout = self._execute_sysctl(["-e", option])
+ 		if retcode == 0:
+-			parts = [self._cmd.remove_ws(value) for value in stdout.split("=", 1)]
++			parts = [self._cmd.remove_ws(str(value)) for value in stdout.split(b"=", 1)]
+ 			if len(parts) == 2:
+ 				option, value = parts
+ 				return value
