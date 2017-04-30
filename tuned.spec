@@ -12,7 +12,6 @@ Group:		System/Kernel and hardware
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	pkgconfig(python3)
-BuildRequires:	python-six
 Requires:	python3egg(decorator)
 Requires:	python3egg(configobj)
 Requires:	python3egg(pyudev)
@@ -44,7 +43,7 @@ Summary:	GTK GUI for tuned
 Requires:	%{name} = %{version}-%{release}
 Requires:	powertop
 Requires:	polkit
-Requires:	python2-gi
+Requires:	python-gi
 
 %description	gtk
 GTK GUI that can control tuned and provide simple profile editor.
@@ -83,6 +82,9 @@ It can be also used to fine tune your system for specific scenarios.
 
 %prep
 %setup -q
+find . -name "*.py" |xargs 2to3 -w
+# Python 3.x is WAY more picky about mixing tabs and spaces than 2.x
+find . -name "*.py" |xargs sed -i -e 's,    ,	,g'
 %apply_patches
 
 %build
@@ -105,9 +107,9 @@ install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/modprobe.preload.d/govern
 # try to autodetect the best profile for the system in case there is none preset
 if [ ! -f %{_sysconfdir}/tuned/active_profile -o -z "`cat %{_sysconfdir}/tuned/active_profile 2>/dev/null`" ]
 then
-    PROFILE=`%{_sbindir}/tuned-adm recommend 2>/dev/null`
-    [ "$PROFILE" ] || PROFILE=balanced
-    %{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || echo -n "$PROFILE" > %{_sysconfdir}/tuned/active_profile
+	PROFILE=`%{_sbindir}/tuned-adm recommend 2>/dev/null`
+	[ "$PROFILE" ] || PROFILE=balanced
+	%{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || echo -n "$PROFILE" > %{_sysconfdir}/tuned/active_profile
 fi
 
 # convert active_profile from full path to name (if needed)
@@ -121,8 +123,8 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_sysconfdir}/modprobe.preload.d/governors
 %endif
 %{_datadir}/bash-completion/completions/tuned-adm
-%exclude %{python2_sitelib}/tuned/gtk
-%{python2_sitelib}/tuned
+%exclude %{python3_sitelib}/tuned/gtk
+%{python3_sitelib}/tuned
 %{_sbindir}/tuned
 %{_sbindir}/tuned-adm
 %exclude %{_prefix}/lib/tuned/default
@@ -138,7 +140,6 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %config(noreplace) %{_sysconfdir}/tuned/active_profile
 %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
 %config(noreplace) %{_sysconfdir}/tuned/bootcmdline
-%config(noreplace) %{_sysconfdir}/tuned/cpu-partitioning-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
@@ -159,7 +160,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %files gtk
 %{_sbindir}/tuned-gui
-%{python2_sitelib}/tuned/gtk
+%{python_sitelib}/tuned/gtk
 %{_datadir}/tuned/ui
 %{_datadir}/polkit-1/actions/com.redhat.tuned.gui.policy
 %{_iconsdir}/hicolor/scalable/apps/tuned.svg
