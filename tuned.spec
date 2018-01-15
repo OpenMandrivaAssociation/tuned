@@ -2,13 +2,13 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.8.0
-Release:	2
+Version:	2.9.0
+Release:	1
 License:	GPLv2+
-Source0:	https://fedorahosted.org/releases/t/u/tuned/%{name}-%{version}.tar.bz2
-Source1:	governors.modules
-URL:		https://fedorahosted.org/tuned/
+URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
+Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.tar.gz
+Source1:	governors.modules
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	pkgconfig(python3)
