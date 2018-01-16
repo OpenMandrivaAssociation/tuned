@@ -12,10 +12,12 @@ Source1:	governors.modules
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	pkgconfig(python3)
+BuildRequires:	python3egg(six)
 Requires:	python3egg(decorator)
 Requires:	python3egg(configobj)
 Requires:	python3egg(pyudev)
 Requires:	python3egg(six)
+Requires:	python3egg(python-linux-procfs)
 Requires:	python-dbus
 Requires:	python-gi
 Requires:	virt-what
@@ -137,13 +139,15 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %exclude %{_mandir}/man7/tuned-profiles-compat.7*
 %{_prefix}/lib/tuned
 %dir %{_sysconfdir}/tuned
-%config(noreplace) %{_sysconfdir}/tuned/active_profile
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/active_profile
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/profile_mode
 %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
-%config(noreplace) %{_sysconfdir}/tuned/bootcmdline
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/bootcmdline
 %config(noreplace) %{_sysconfdir}/tuned/cpu-partitioning-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
+%config(noreplace) %{_sysconfdir}/tuned/sap-hana-vmware-variables.conf
 %{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
 %verify(not size mtime md5) %{_sysconfdir}/modprobe.d/tuned.conf
 %{_tmpfilesdir}/tuned.conf

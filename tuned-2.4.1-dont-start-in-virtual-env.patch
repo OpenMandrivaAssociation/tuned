@@ -1,10 +1,10 @@
-diff -Naur tuned-2.7.0/tuned.service tuned-2.7.0.tpg/tuned.service
---- tuned-2.7.0/tuned.service	2016-06-16 16:10:59.000000000 +0000
-+++ tuned-2.7.0.tpg/tuned.service	2016-07-20 22:38:51.438209707 +0000
-@@ -3,6 +3,7 @@
- After=syslog.target systemd-sysctl.service network.target
+diff -Naur tuned-2.9.0/tuned.service tuned-2.9.0.tpg/tuned.service
+--- tuned-2.9.0/tuned.service	2017-10-29 19:57:37.000000000 +0000
++++ tuned-2.9.0.tpg/tuned.service	2018-01-16 16:54:59.829827036 +0000
+@@ -4,6 +4,7 @@
  Requires=dbus.service polkit.service
  Conflicts=cpupower.service
+ Documentation=man:tuned(8) man:tuned.conf(5) man:tuned-adm(8)
 +ConditionVirtualization=no
  
  [Service]
