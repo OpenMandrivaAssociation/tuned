@@ -3,12 +3,15 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.9.0
-Release:	1
+Release:	2
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
 Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.tar.gz
 Source1:	governors.modules
+Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
+Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
+Patch4:		tuned-2.7.0-python3.patch
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	pkgconfig(python3)
@@ -29,9 +32,9 @@ Requires:	polkit
 %ifnarch %armx
 Requires:	cpupower
 %endif
-Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
-Patch4:		tuned-2.7.0-python3.patch
+%if %{mdvver} > 3000000
+%rename		laptop-mode-tools
+%endif
 
 %description
 The tuned package contains a daemon that tunes system settings dynamically.
