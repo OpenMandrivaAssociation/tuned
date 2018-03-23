@@ -21,7 +21,7 @@ Requires:	python3egg(configobj)
 Requires:	python3egg(pyudev)
 Requires:	python3egg(six)
 Requires:	python3egg(python-linux-procfs)
-Requires:	python-dbus
+Requires:	python3-dbus
 Requires:	python-gi
 Requires:	virt-what
 Requires:	hdparm
