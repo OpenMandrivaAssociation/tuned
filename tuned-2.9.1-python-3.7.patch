@@ -1,0 +1,37 @@
+diff -up tuned-master/tuned/admin/admin.py.omv~ tuned-master/tuned/admin/admin.py
+--- tuned-master/tuned/admin/admin.py.omv~	2018-06-06 20:12:28.228074301 +0200
++++ tuned-master/tuned/admin/admin.py	2018-06-06 20:12:46.095075280 +0200
+@@ -13,10 +13,10 @@ import time
+ import threading
+ 
+ class Admin(object):
+-	def __init__(self, dbus = True, debug = False, async = False, timeout = consts.ADMIN_TIMEOUT):
++	def __init__(self, dbus = True, debug = False, asynch = False, timeout = consts.ADMIN_TIMEOUT):
+ 		self._dbus = dbus
+ 		self._debug = debug
+-		self._async = async
++		self._async = asynch
+ 		self._timeout = timeout
+ 		self._cmd = commands(debug)
+ 		self._profiles_locator = profiles_locator(consts.LOAD_DIRECTORIES)
+diff -up tuned-master/tuned-adm.py.omv~ tuned-master/tuned-adm.py
+--- tuned-master/tuned-adm.py.omv~	2018-06-06 20:12:53.108075664 +0200
++++ tuned-master/tuned-adm.py	2018-06-06 20:13:00.990076095 +0200
+@@ -82,7 +82,7 @@ if __name__ == "__main__":
+ 
+ 	options = vars(args)
+ 	debug = options.pop("debug")
+-	async = options.pop("async")
++	asynch = options.pop("async")
+ 	timeout = options.pop("timeout")
+ 	action_name = options.pop("action")
+ 	result = False
+@@ -90,7 +90,7 @@ if __name__ == "__main__":
+ 	dbus = config.get_bool(consts.CFG_DAEMON, consts.CFG_DEF_DAEMON)
+ 
+ 	try:
+-		admin = tuned.admin.Admin(dbus, debug, async, timeout)
++		admin = tuned.admin.Admin(dbus, debug, asynch, timeout)
+ 
+ 		result = admin.action(action_name, **options)
+ 	except tuned.admin.TunedAdminException as e:

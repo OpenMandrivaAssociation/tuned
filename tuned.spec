@@ -2,16 +2,17 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.9.0
-Release:	2
+Version:	2.9.1
+Release:	0.20180606.1
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
-Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.tar.gz
+Source0:	https://github.com/redhat-performance/tuned/archive/master.tar.gz
 Source1:	governors.modules
 Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
+# "async" is a reserved word in python 3.7...
+Patch2:		tuned-2.9.1-python-3.7.patch
 Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
-Patch4:		tuned-2.7.0-python3.patch
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	pkgconfig(python3)
@@ -86,11 +87,7 @@ Additional tuned profiles mainly for backward compatibility with tuned 1.0.
 It can be also used to fine tune your system for specific scenarios.
 
 %prep
-%setup -q
-find . -name "*.py" |xargs 2to3 -w
-# Python 3.x is WAY more picky about mixing tabs and spaces than 2.x
-find . -name "*.py" |xargs sed -i -e 's,    ,	,g'
-%apply_patches
+%autosetup -n tuned-master -p1
 
 %build
 
@@ -157,6 +154,8 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_unitdir}/tuned.service
 %{_presetdir}/86-tuned.preset
 %{_libexecdir}/tuned/defirqaffinity.py
+%dir %{_libexecdir}/tuned/__pycache__
+%{_libexecdir}/tuned/__pycache__/defirqaffinity.*
 
 %dir %{_localstatedir}/log/tuned
 %dir /run/tuned
@@ -177,6 +176,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %files utils
 %{_bindir}/powertop2tuned
 %{_libexecdir}/tuned/pmqos-static*
+%{_libexecdir}/tuned/__pycache__/pmqos-static*
 
 %files utils-systemtap
 %doc doc/README.utils
