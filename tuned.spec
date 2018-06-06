@@ -15,6 +15,7 @@ Patch2:		tuned-2.9.1-python-3.7.patch
 Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
 BuildArch:	noarch
 Requires(post):	virt-what
+BuildRequires:	systemd
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python3egg(six)
 Requires:	python3egg(decorator)
