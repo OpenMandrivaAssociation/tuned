@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.9.1
-Release:	0.20180606.1
+Release:	0.20180606.2
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
@@ -33,6 +33,7 @@ Requires:	dbus
 Requires:	polkit
 %ifnarch %armx
 Requires:	cpupower
+Requires:	x86_energy_perf_policy
 %endif
 %if %{mdvver} > 3000000
 %rename		laptop-mode-tools
