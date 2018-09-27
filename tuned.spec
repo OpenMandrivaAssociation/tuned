@@ -1,14 +1,13 @@
-%define __noautoreq /usr/bin/stap
+%global __requires_exclude /usr/bin/stap
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.10.0
-Release:	1
+Release:	2
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
 Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.tar.gz
-Source1:	governors.modules
 Patch0:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
 # "async" is a reserved word in python 3.7...
 # Upstream patch:
@@ -110,11 +109,6 @@ cat > %{buildroot}%{_presetdir}/86-tuned.preset << EOF
 enable tuned.service
 EOF
 
-%ifnarch %armx
-# (tpg) install cpu governors's modules
-install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/modprobe.preload.d/governors
-%endif
-
 %post
 # try to autodetect the best profile for the system in case there is none preset
 if [ ! -f %{_sysconfdir}/tuned/active_profile -o -z "`cat %{_sysconfdir}/tuned/active_profile 2>/dev/null`" ]
@@ -131,9 +125,6 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %files
 %doc AUTHORS README doc/TIPS.txt
-%ifnarch %armx
-%{_sysconfdir}/modprobe.preload.d/governors
-%endif
 %{_datadir}/bash-completion/completions/tuned-adm
 %exclude %{python3_sitelib}/tuned/gtk
 %{python3_sitelib}/tuned
