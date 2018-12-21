@@ -1,19 +1,28 @@
-%define __noautoreq /usr/bin/stap
+%global __noautoreq /usr/bin/stap
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.9.0
-Release:	3
+Version:	2.10.0
+Release:	0.1
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
 Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.tar.gz
-Source1:	governors.modules
-Patch1:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-Patch3:		tuned-2.4.1-dont-start-in-virtual-env.patch
-Patch4:		tuned-2.7.0-python3.patch
+Patch0:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
+# "async" is a reserved word in python 3.7...
+# Upstream patch:
+Patch1:		tuned-2.10.0-python-3.7-fix.patch
+# Upstream patch:
+Patch2:		0001-tuned-adm-Fix-a-traceback-when-run-without-action-sp.patch
+# Upstream patch:
+Patch3:		tuned-2.10.0-makefile-full-python-path.patch
+# Upstream patch:
+Patch4:		0001-tuned-gui-Sort-plugins-based-on-their-name.patch
+Patch5:		tuned-2.4.1-dont-start-in-virtual-env.patch
+
 BuildArch:	noarch
 Requires(post):	virt-what
+BuildRequires:	systemd
 BuildRequires:	pkgconfig(python3)
 BuildRequires:	python3egg(six)
 Requires:	python3egg(decorator)
@@ -88,9 +97,6 @@ It can be also used to fine tune your system for specific scenarios.
 
 %prep
 %setup -q
-find . -name "*.py" |xargs 2to3 -w
-# Python 3.x is WAY more picky about mixing tabs and spaces than 2.x
-find . -name "*.py" |xargs sed -i -e 's,    ,	,g'
 %apply_patches
 
 %build
@@ -103,11 +109,6 @@ install -d %{buildroot}%{_presetdir}
 cat > %{buildroot}%{_presetdir}/86-tuned.preset << EOF
 enable tuned.service
 EOF
-
-%ifnarch %armx
-# (tpg) install cpu governors's modules
-install -D -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/modprobe.preload.d/governors
-%endif
 
 %post
 # try to autodetect the best profile for the system in case there is none preset
@@ -125,9 +126,6 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %files
 %doc AUTHORS README doc/TIPS.txt
-%ifnarch %armx
-%{_sysconfdir}/modprobe.preload.d/governors
-%endif
 %{_datadir}/bash-completion/completions/tuned-adm
 %exclude %{python3_sitelib}/tuned/gtk
 %{python3_sitelib}/tuned
