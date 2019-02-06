@@ -18,7 +18,7 @@ Patch2:		0001-tuned-adm-Fix-a-traceback-when-run-without-action-sp.patch
 Patch3:		tuned-2.10.0-makefile-full-python-path.patch
 # Upstream patch:
 Patch4:		0001-tuned-gui-Sort-plugins-based-on-their-name.patch
-Patch6:		tuned-2.4.1-dont-start-in-virtual-env.patch
+Patch5:		tuned-2.4.1-dont-start-in-virtual-env.patch
 
 BuildArch:	noarch
 Requires(post):	virt-what
