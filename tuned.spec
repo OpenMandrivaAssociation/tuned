@@ -118,7 +118,7 @@ if [ ! -f %{_sysconfdir}/tuned/active_profile ] || [ -z "$(cat %{_sysconfdir}/tu
 fi
 
 # convert active_profile from full path to name (if needed)
-sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i /etc/tuned/active_profile
+sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profile
 
 %systemd_post %{name}
 
