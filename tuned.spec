@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.10.0
-Release:	3
+Release:	4
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
@@ -18,7 +18,8 @@ Patch2:		0001-tuned-adm-Fix-a-traceback-when-run-without-action-sp.patch
 Patch3:		tuned-2.10.0-makefile-full-python-path.patch
 # Upstream patch:
 Patch4:		0001-tuned-gui-Sort-plugins-based-on-their-name.patch
-Patch5:		tuned-2.4.1-dont-start-in-virtual-env.patch
+Patch5:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch
+Patch6:		tuned-2.4.1-dont-start-in-virtual-env.patch
 
 BuildArch:	noarch
 Requires(post):	virt-what
@@ -38,7 +39,7 @@ Requires:	ethtool
 Requires:	typelib(GObject)
 Requires:	dbus
 Requires:	polkit
-%ifnarch %armx
+%ifnarch %{armx}
 Requires:	cpupower
 Requires:	x86_energy_perf_policy
 %endif
@@ -110,16 +111,14 @@ enable tuned.service
 EOF
 
 %post
-# try to autodetect the best profile for the system in case there is none preset
-if [ ! -f %{_sysconfdir}/tuned/active_profile -o -z "`cat %{_sysconfdir}/tuned/active_profile 2>/dev/null`" ]
-then
-	PROFILE=`%{_sbindir}/tuned-adm recommend 2>/dev/null`
-	[ "$PROFILE" ] || PROFILE=balanced
-	%{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || echo -n "$PROFILE" > %{_sysconfdir}/tuned/active_profile
+if [ ! -f %{_sysconfdir}/tuned/active_profile ] || [ -z "$(cat %{_sysconfdir}/tuned/active_profile 2>/dev/null)" ]; then
+    PROFILE="$(%{_sbindir}/tuned-adm recommend 2>/dev/null)"
+    [ "$PROFILE" ] || PROFILE=balanced
+    %{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || printf '%s\n' "$PROFILE" > %{_sysconfdir}/tuned/active_profile
 fi
 
 # convert active_profile from full path to name (if needed)
-sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profile
+sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i /etc/tuned/active_profile
 
 %systemd_post %{name}
 
