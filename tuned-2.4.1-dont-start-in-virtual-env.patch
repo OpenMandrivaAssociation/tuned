@@ -1,6 +1,6 @@
-diff -Naur tuned-2.9.0/tuned.service tuned-2.9.0.tpg/tuned.service
---- tuned-2.9.0/tuned.service	2017-10-29 19:57:37.000000000 +0000
-+++ tuned-2.9.0.tpg/tuned.service	2018-01-16 16:54:59.829827036 +0000
+diff -Naur tuned-2.11.0/tuned.service tuned-2.11.0.tpg/tuned.service
+--- tuned-2.11.0/tuned.service	2019-03-21 22:10:46.000000000 +0000
++++ tuned-2.11.0.tpg/tuned.service	2019-03-22 07:52:57.625000000 +0000
 @@ -4,6 +4,7 @@
  Requires=dbus.service polkit.service
  Conflicts=cpupower.service

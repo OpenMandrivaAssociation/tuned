@@ -9,15 +9,11 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Per �yvind Karlsen (proyvind) <proyvind@moondrake.org>
----
- tuned/consts.py         | 2 +-
- tuned/utils/commands.py | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff -Naur tuned-2.9.0/tuned/consts.py tuned-2.9.0.tpg/tuned/consts.py
---- tuned-2.9.0/tuned/consts.py	2018-01-16 16:46:38.371149000 +0000
-+++ tuned-2.9.0.tpg/tuned/consts.py	2018-01-16 16:48:59.616464548 +0000
-@@ -47,7 +47,7 @@
+diff -Naur tuned-2.11.0/tuned/consts.py tuned-2.11.0.tpg/tuned/consts.py
+--- tuned-2.11.0/tuned/consts.py	2019-03-21 22:10:46.000000000 +0000
++++ tuned-2.11.0.tpg/tuned/consts.py	2019-03-22 07:47:49.565000000 +0000
+@@ -53,7 +53,7 @@
  LOG_FILE_MAXBYTES = 100*1000
  LOG_FILE = "/var/log/tuned/tuned.log"
  PID_FILE = "/run/tuned/tuned.pid"
@@ -26,17 +22,19 @@ diff -Naur tuned-2.9.0/tuned/consts.py tuned-2.9.0.tpg/tuned/consts.py
  # prefix for functions plugins
  FUNCTION_PREFIX = "function_"
  # prefix for exported environment variables when calling scripts
-diff -Naur tuned-2.9.0/tuned/utils/commands.py tuned-2.9.0.tpg/tuned/utils/commands.py
---- tuned-2.9.0/tuned/utils/commands.py	2018-01-16 16:46:38.362149000 +0000
-+++ tuned-2.9.0.tpg/tuned/utils/commands.py	2018-01-16 16:50:12.121581367 +0000
-@@ -391,7 +391,9 @@
- 						if not re.match(value, self.execute("virt-what")[1], re.S):
+diff -Naur tuned-2.11.0/tuned/utils/profile_recommender.py tuned-2.11.0.tpg/tuned/utils/profile_recommender.py
+--- tuned-2.11.0/tuned/utils/profile_recommender.py	2019-03-21 22:10:46.000000000 +0000
++++ tuned-2.11.0.tpg/tuned/utils/profile_recommender.py	2019-03-22 07:48:41.908000000 +0000
+@@ -78,9 +78,9 @@
+ 								self._commands.execute(["virt-what"])[1], re.S):
  							match = False
  					elif option == "system":
--						if not re.match(value, self.read_file(consts.SYSTEM_RELEASE_FILE), re.S):
+-						if not re.match(value,
+-								self._commands.read_file(
+-								consts.SYSTEM_RELEASE_FILE), re.S):
 +						regex = re.search('CPE_NAME="(.*)"', self.read_file(consts.OS_RELEASE_FILE))
 +						cpe = ("" if regex is None else regex.groups()[0])
 +						if not re.match(value, cpe, re.S):
  							match = False
  					elif option[0] == "/":
- 						if not os.path.exists(option) or not re.match(value, self.read_file(option), re.S):
+ 						if not os.path.exists(option) or not re.match(value,

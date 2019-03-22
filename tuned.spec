@@ -2,24 +2,14 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.10.0
-Release:	4
+Version:	2.11.0
+Release:	1
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
 Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.tar.gz
 Patch0:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-# "async" is a reserved word in python 3.7...
-# Upstream patch:
-Patch1:		tuned-2.10.0-python-3.7-fix.patch
-# Upstream patch:
-Patch2:		0001-tuned-adm-Fix-a-traceback-when-run-without-action-sp.patch
-# Upstream patch:
-Patch3:		tuned-2.10.0-makefile-full-python-path.patch
-# Upstream patch:
-Patch4:		0001-tuned-gui-Sort-plugins-based-on-their-name.patch
 Patch5:		tuned-2.4.1-dont-start-in-virtual-env.patch
-
 BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:	systemd-macros
