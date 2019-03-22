@@ -127,6 +127,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %exclude %{_prefix}/lib/tuned/spindown-disk
 %exclude %{_mandir}/man7/tuned-profiles-compat.7*
 %{_prefix}/lib/tuned
+%{_prefix}/lib/kernel/install.d/*tuned.*
 %dir %{_sysconfdir}/tuned
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/active_profile
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/profile_mode
