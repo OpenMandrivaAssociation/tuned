@@ -32,7 +32,7 @@ diff -Naur tuned-2.11.0/tuned/utils/profile_recommender.py tuned-2.11.0.tpg/tune
 -						if not re.match(value,
 -								self._commands.read_file(
 -								consts.SYSTEM_RELEASE_FILE), re.S):
-+						regex = re.search('CPE_NAME="(.*)"', self.read_file(consts.OS_RELEASE_FILE))
++						regex = re.search('CPE_NAME="(.*)"', self._commands.read_file(consts.OS_RELEASE_FILE))
 +						cpe = ("" if regex is None else regex.groups()[0])
 +						if not re.match(value, cpe, re.S):
  							match = False
