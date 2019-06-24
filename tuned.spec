@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.11.0
-Release:	2
+Release:	3
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
@@ -93,6 +93,9 @@ It can be also used to fine tune your system for specific scenarios.
 %install
 %make_install
 rm -r %{buildroot}%{_docdir}/%{name}
+
+# (tpg) by default use latency-performance profile
+printf '%s\n' 'latency-performance' > %{buildroot}%{_sysconfdir}/tuned/active_profile
 
 install -d %{buildroot}%{_presetdir}
 cat > %{buildroot}%{_presetdir}/86-tuned.preset << EOF
