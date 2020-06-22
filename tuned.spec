@@ -167,7 +167,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %files utils
 %{_bindir}/powertop2tuned
 %{_libexecdir}/tuned/pmqos-static*
-%{_libexecdir}/tuned/__pycache__/pmqos-static*
+#{_libexecdir}/tuned/__pycache__/pmqos-static*
 
 %files utils-systemtap
 %doc doc/README.utils
