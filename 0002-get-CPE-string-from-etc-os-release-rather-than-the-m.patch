@@ -10,10 +10,10 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Per �yvind Karlsen (proyvind) <proyvind@moondrake.org>
 
-diff -Naur tuned-2.11.0/tuned/consts.py tuned-2.11.0.tpg/tuned/consts.py
---- tuned-2.11.0/tuned/consts.py	2019-03-21 22:10:46.000000000 +0000
-+++ tuned-2.11.0.tpg/tuned/consts.py	2019-03-22 07:47:49.565000000 +0000
-@@ -53,7 +53,7 @@
+diff -uraN tuned-2.14.0/tuned/consts.py omv-tuned-2.14.0/tuned/consts.py
+--- tuned-2.14.0/tuned/consts.py	2020-06-15 11:26:48.000000000 +0200
++++ omv-tuned-2.14.0/tuned/consts.py	2020-06-22 13:57:29.923166109 +0200
+@@ -64,7 +64,7 @@
  LOG_FILE_MAXBYTES = 100*1000
  LOG_FILE = "/var/log/tuned/tuned.log"
  PID_FILE = "/run/tuned/tuned.pid"
@@ -22,19 +22,20 @@ diff -Naur tuned-2.11.0/tuned/consts.py tuned-2.11.0.tpg/tuned/consts.py
  # prefix for functions plugins
  FUNCTION_PREFIX = "function_"
  # prefix for exported environment variables when calling scripts
-diff -Naur tuned-2.11.0/tuned/utils/profile_recommender.py tuned-2.11.0.tpg/tuned/utils/profile_recommender.py
---- tuned-2.11.0/tuned/utils/profile_recommender.py	2019-03-21 22:10:46.000000000 +0000
-+++ tuned-2.11.0.tpg/tuned/utils/profile_recommender.py	2019-03-22 07:48:41.908000000 +0000
-@@ -78,9 +78,9 @@
+diff -uraN tuned-2.14.0/tuned/utils/profile_recommender.py omv-tuned-2.14.0/tuned/utils/profile_recommender.py
+--- tuned-2.14.0/tuned/utils/profile_recommender.py	2020-06-15 11:26:48.000000000 +0200
++++ omv-tuned-2.14.0/tuned/utils/profile_recommender.py	2020-06-22 14:00:06.820593259 +0200
+@@ -78,10 +78,9 @@
  								self._commands.execute(["virt-what"])[1], re.S):
  							match = False
  					elif option == "system":
 -						if not re.match(value,
 -								self._commands.read_file(
--								consts.SYSTEM_RELEASE_FILE), re.S):
-+						regex = re.search('CPE_NAME="(.*)"', self._commands.read_file(consts.OS_RELEASE_FILE))
-+						cpe = ("" if regex is None else regex.groups()[0])
-+						if not re.match(value, cpe, re.S):
+-								consts.SYSTEM_RELEASE_FILE,
+-								no_error = True), re.S):
++					    regex = re.search('CPE_NAME="(.*)"', self._commands.read_file(consts.OS_RELEASE_FILE))
++                        cpe = ("" if regex is None else regex.groups()[0])
++                        if not re.match(value, cpe, re.S):
  							match = False
  					elif option[0] == "/":
  						if not os.path.exists(option) or not re.match(value,
