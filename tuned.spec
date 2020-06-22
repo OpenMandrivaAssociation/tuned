@@ -134,6 +134,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %dir %{_sysconfdir}/tuned
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/active_profile
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/profile_mode
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/post_loaded_profile
 %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/bootcmdline
 %config(noreplace) %{_sysconfdir}/tuned/cpu-partitioning-variables.conf
@@ -146,8 +147,6 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_unitdir}/tuned.service
 %{_presetdir}/86-tuned.preset
 %{_libexecdir}/tuned/defirqaffinity.py
-#dir 3{_libexecdir}/tuned/__pycache__
-#{_libexecdir}/tuned/__pycache__/defirqaffinity.*
 
 %dir %{_localstatedir}/log/tuned
 %dir /run/tuned
@@ -167,7 +166,6 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %files utils
 %{_bindir}/powertop2tuned
 %{_libexecdir}/tuned/pmqos-static*
-#{_libexecdir}/tuned/__pycache__/pmqos-static*
 
 %files utils-systemtap
 %doc doc/README.utils
