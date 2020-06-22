@@ -146,8 +146,8 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_unitdir}/tuned.service
 %{_presetdir}/86-tuned.preset
 %{_libexecdir}/tuned/defirqaffinity.py
-%dir %{_libexecdir}/tuned/__pycache__
-%{_libexecdir}/tuned/__pycache__/defirqaffinity.*
+#dir 3{_libexecdir}/tuned/__pycache__
+#{_libexecdir}/tuned/__pycache__/defirqaffinity.*
 
 %dir %{_localstatedir}/log/tuned
 %dir /run/tuned
