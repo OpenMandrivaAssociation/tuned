@@ -1,19 +1,7 @@
-From 4865d6ab3fe874d57a0c9e9c871238182afaab37 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Per=20=C3=98yvind=20Karlsen=20=28proyvind=29?=
- <proyvind@moondrake.org>
-Date: Sun, 20 Apr 2014 15:22:58 +0200
-Subject: [PATCH 2/3] get CPE string from /etc/os-release rather than the more
- distro specific /etc/system-release-cpe
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Signed-off-by: Per �yvind Karlsen (proyvind) <proyvind@moondrake.org>
-
-diff -uraN tuned-2.14.0/tuned/consts.py omv-tuned-2.14.0/tuned/consts.py
---- tuned-2.14.0/tuned/consts.py	2020-06-15 11:26:48.000000000 +0200
-+++ omv-tuned-2.14.0/tuned/consts.py	2020-06-22 13:57:29.923166109 +0200
-@@ -64,7 +64,7 @@
+diff -up tuned-2.14.0/tuned/consts.py.1~ tuned-2.14.0/tuned/consts.py
+--- tuned-2.14.0/tuned/consts.py.1~	2020-06-15 11:26:48.000000000 +0200
++++ tuned-2.14.0/tuned/consts.py	2020-07-23 21:56:04.446648685 +0200
+@@ -64,7 +64,7 @@ LOG_FILE_COUNT = 2
  LOG_FILE_MAXBYTES = 100*1000
  LOG_FILE = "/var/log/tuned/tuned.log"
  PID_FILE = "/run/tuned/tuned.pid"
@@ -22,10 +10,10 @@ diff -uraN tuned-2.14.0/tuned/consts.py omv-tuned-2.14.0/tuned/consts.py
  # prefix for functions plugins
  FUNCTION_PREFIX = "function_"
  # prefix for exported environment variables when calling scripts
-diff -uraN tuned-2.14.0/tuned/utils/profile_recommender.py omv-tuned-2.14.0/tuned/utils/profile_recommender.py
---- tuned-2.14.0/tuned/utils/profile_recommender.py	2020-06-15 11:26:48.000000000 +0200
-+++ omv-tuned-2.14.0/tuned/utils/profile_recommender.py	2020-06-22 14:00:06.820593259 +0200
-@@ -78,10 +78,9 @@
+diff -up tuned-2.14.0/tuned/utils/profile_recommender.py.1~ tuned-2.14.0/tuned/utils/profile_recommender.py
+--- tuned-2.14.0/tuned/utils/profile_recommender.py.1~	2020-07-23 21:56:04.446648685 +0200
++++ tuned-2.14.0/tuned/utils/profile_recommender.py	2020-07-23 21:58:22.473174174 +0200
+@@ -78,11 +78,10 @@ class ProfileRecommender:
  								self._commands.execute(["virt-what"])[1], re.S):
  							match = False
  					elif option == "system":
@@ -33,9 +21,11 @@ diff -uraN tuned-2.14.0/tuned/utils/profile_recommender.py omv-tuned-2.14.0/tune
 -								self._commands.read_file(
 -								consts.SYSTEM_RELEASE_FILE,
 -								no_error = True), re.S):
-+					    regex = re.search('CPE_NAME="(.*)"', self._commands.read_file(consts.OS_RELEASE_FILE))
-+                        cpe = ("" if regex is None else regex.groups()[0])
-+                        if not re.match(value, cpe, re.S):
- 							match = False
+-							match = False
++						regex = re.search('CPE_NAME="(.*)"', self._commands.read_file(consts.OS_RELEASE_FILE))
++						cpe = ("" if regex is None else regex.groups()[0])
++						if not re.match(value, cpe, re.S):
++							match = False
  					elif option[0] == "/":
  						if not os.path.exists(option) or not re.match(value,
+ 								self._commands.read_file(option), re.S):
