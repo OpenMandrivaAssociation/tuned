@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.18.0
-Release:	2
+Release:	3
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
@@ -43,40 +43,40 @@ Based on that information components will then be put into lower or higher
 power saving modes to adapt to the current usage. Currently only ethernet
 network and ATA harddisk devices are implemented.
 
-%package	gtk
+%package gtk
 Summary:	GTK GUI for tuned
 Requires:	%{name} = %{version}-%{release}
 Requires:	powertop
 Requires:	polkit
 Requires:	python-gi
 
-%description	gtk
+%description gtk
 GTK GUI that can control tuned and provide simple profile editor.
 
-%package	utils
+%package utils
 Requires:	%{name} = %{EVRD}
 Summary:	Various tuned utilities
 Group:		System/Kernel and hardware
 Requires:	powertop
 
-%description	utils
+%description utils
 This package contains utilities that can help you to fine tune and
 debug your system and manage tuned profiles.
 
-%package	utils-systemtap
+%package utils-systemtap
 Summary:	Disk and net statistic monitoring systemtap scripts
 Requires:	%{name} = %{EVRD}
 Group:		System/Kernel and hardware
 Requires:	systemtap
 
-%description	utils-systemtap
+%description utils-systemtap
 This package contains several systemtap scripts to allow detailed
 manual monitoring of the system. Instead of the typical IO/sec it collects
 minimal, maximal and average time between operations to be able to
 identify applications that behave power inefficient (many small operations
 instead of fewer large ones).
 
-%package	profiles-compat
+%package profiles-compat
 Summary:	Additional tuned profiles mainly for backward compatibility with tuned 1.0
 Group:		System/Kernel and hardware
 Requires:	%{name} = %{EVRD}
@@ -87,6 +87,8 @@ It can be also used to fine tune your system for specific scenarios.
 
 %prep
 %autosetup -p1
+
+sed -i -e 's#/usr/sbin#%{_sbindir}#g' Makefile tuned-gui.desktop tuned-gui.py tuned.service
 
 %build
 
@@ -150,9 +152,9 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 
 %dir %{_localstatedir}/log/tuned
 %dir /run/tuned
-%{_mandir}/man5/tuned*
-%{_mandir}/man7/tuned-profiles*
-%{_mandir}/man8/tuned*
+%doc %{_mandir}/man5/tuned*
+%doc %{_mandir}/man7/tuned-profiles*
+%doc %{_mandir}/man8/tuned*
 %{_sysconfdir}/grub.d/00_tuned
 %{_datadir}/polkit-1/actions/com.redhat.tuned.policy
 
@@ -174,10 +176,10 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_sbindir}/netdevstat
 %{_sbindir}/diskdevstat
 %{_sbindir}/scomes
-%{_mandir}/man8/varnetload.*
-%{_mandir}/man8/netdevstat.*
-%{_mandir}/man8/diskdevstat.*
-%{_mandir}/man8/scomes.*
+%doc %{_mandir}/man8/varnetload.*
+%doc %{_mandir}/man8/netdevstat.*
+%doc %{_mandir}/man8/diskdevstat.*
+%doc %{_mandir}/man8/scomes.*
 
 %files profiles-compat
 %{_prefix}/lib/tuned/default
@@ -187,4 +189,4 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %{_prefix}/lib/tuned/laptop-battery-powersave
 %{_prefix}/lib/tuned/enterprise-storage
 %{_prefix}/lib/tuned/spindown-disk
-%{_mandir}/man7/tuned-profiles-compat.7*
+%doc %{_mandir}/man7/tuned-profiles-compat.7*
