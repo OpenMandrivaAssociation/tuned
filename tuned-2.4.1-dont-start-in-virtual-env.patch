@@ -1,9 +1,9 @@
-diff -Naur tuned-2.11.0/tuned.service tuned-2.11.0.tpg/tuned.service
---- tuned-2.11.0/tuned.service	2019-03-21 22:10:46.000000000 +0000
-+++ tuned-2.11.0.tpg/tuned.service	2019-03-22 07:52:57.625000000 +0000
+diff -uraN tuned-2.19.0/tuned.service omv-tuned-2.19.0/tuned.service
+--- tuned-2.19.0/tuned.service	2022-08-19 20:28:45.000000000 +0200
++++ omv-tuned-2.19.0/tuned.service	2022-08-21 20:13:37.654175760 +0200
 @@ -4,6 +4,7 @@
  Requires=dbus.service polkit.service
- Conflicts=cpupower.service
+ Conflicts=cpupower.service auto-cpufreq.service tlp.service power-profiles-daemon.service
  Documentation=man:tuned(8) man:tuned.conf(5) man:tuned-adm(8)
 +ConditionVirtualization=no
  
