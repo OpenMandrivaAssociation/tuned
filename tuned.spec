@@ -2,7 +2,7 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.19.0
+Version:	2.20.0
 Release:	1
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
