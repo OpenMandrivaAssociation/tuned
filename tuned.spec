@@ -9,11 +9,10 @@ URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
 Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.tar.gz
 Patch0:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
-Patch5:		tuned-2.4.1-dont-start-in-virtual-env.patch
 BuildArch:	noarch
 Requires(post):	virt-what
-BuildRequires:	systemd-macros
-BuildRequires:	pkgconfig(python3)
+BuildRequires:	systemd-rpm-macros
+BuildRequires:	pkgconfig(python)
 BuildRequires:	python3egg(six)
 Requires:	python3dist(decorator)
 Requires:	python3dist(configobj)
@@ -28,7 +27,7 @@ Requires:	ethtool
 Requires:	typelib(GObject)
 Requires:	dbus
 Requires:	polkit
-%ifnarch %{armx}
+%if "%{_host_cpu}" != "aarch64"
 Requires:	cpupower
 Requires:	x86_energy_perf_policy
 %endif
@@ -105,16 +104,22 @@ enable tuned.service
 EOF
 
 %post
+%systemd_post tuned.service
+
+# convert active_profile from full path to name (if needed)
+sed -i 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' /etc/tuned/active_profile
+
 if [ ! -f %{_sysconfdir}/tuned/active_profile ] || [ -z "$(cat %{_sysconfdir}/tuned/active_profile 2>/dev/null)" ]; then
     PROFILE="$(%{_sbindir}/tuned-adm recommend 2>/dev/null)"
     [ "$PROFILE" ] || PROFILE=balanced
     %{_sbindir}/tuned-adm profile "$PROFILE" 2>/dev/null || printf '%s\n' "$PROFILE" > %{_sysconfdir}/tuned/active_profile
 fi
 
-# convert active_profile from full path to name (if needed)
-sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profile
+%preun
+%systemd_preun tuned.service
 
-%systemd_post %{name}
+%postun
+%systemd_postun_with_restart tuned.service
 
 %files
 %doc AUTHORS README doc/TIPS.txt
@@ -140,6 +145,7 @@ sed -e 's|.*/\([^/]\+\)/[^\.]\+\.conf|\1|' -i %{_sysconfdir}/tuned/active_profil
 %config(noreplace) %{_sysconfdir}/tuned/tuned-main.conf
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/tuned/bootcmdline
 %config(noreplace) %{_sysconfdir}/tuned/cpu-partitioning-variables.conf
+%config(noreplace) %{_sysconfdir}/tuned/cpu-partitioning-powersave-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
