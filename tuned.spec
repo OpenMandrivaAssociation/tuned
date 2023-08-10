@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.20.0
-Release:	2
+Release:	3
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
@@ -20,7 +20,6 @@ Requires:	python3dist(pyudev)
 Requires:	python3dist(six)
 Requires:	python3dist(python-linux-procfs)
 Requires:	python3-dbus
-Requires:	python-gi
 Requires:	virt-what
 Requires:	hdparm
 Requires:	ethtool
