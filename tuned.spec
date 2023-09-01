@@ -123,7 +123,7 @@ fi
 %systemd_postun_with_restart tuned.service
 
 %files
-%doc AUTHORS README doc/TIPS.txt
+%doc AUTHORS README* doc/TIPS.txt
 %{_datadir}/bash-completion/completions/tuned-adm
 %exclude %{python3_sitelib}/tuned/gtk
 %{python3_sitelib}/tuned
@@ -150,7 +150,7 @@ fi
 %config(noreplace) %{_sysconfdir}/tuned/realtime-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
-%{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
+#{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
 %verify(not size mtime md5) %{_sysconfdir}/modprobe.d/tuned.conf
 %{_tmpfilesdir}/tuned.conf
 %{_unitdir}/tuned.service
