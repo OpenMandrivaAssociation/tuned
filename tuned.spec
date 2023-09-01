@@ -150,7 +150,7 @@ fi
 %config(noreplace) %{_sysconfdir}/tuned/realtime-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-guest-variables.conf
 %config(noreplace) %{_sysconfdir}/tuned/realtime-virtual-host-variables.conf
-#{_sysconfdir}/dbus-1/system.d/com.redhat.tuned.conf
+%{_datadir}/dbus-1/system.d/com.redhat.tuned.conf
 %verify(not size mtime md5) %{_sysconfdir}/modprobe.d/tuned.conf
 %{_tmpfilesdir}/tuned.conf
 %{_unitdir}/tuned.service
