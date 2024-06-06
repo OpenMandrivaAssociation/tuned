@@ -189,11 +189,11 @@ fi
 %doc %{_mandir}/man8/scomes.*
 
 %files profiles-compat
-%{_prefix}/lib/tuned/default
-%{_prefix}/lib/tuned/desktop-powersave
-%{_prefix}/lib/tuned/laptop-ac-powersave
-%{_prefix}/lib/tuned/server-powersave
-%{_prefix}/lib/tuned/laptop-battery-powersave
-%{_prefix}/lib/tuned/enterprise-storage
-%{_prefix}/lib/tuned/spindown-disk
-%doc %{_mandir}/man7/tuned-profiles-compat.7*
+#{_prefix}/lib/tuned/default
+#{_prefix}/lib/tuned/desktop-powersave
+#{_prefix}/lib/tuned/laptop-ac-powersave
+#{_prefix}/lib/tuned/server-powersave
+#{_prefix}/lib/tuned/laptop-battery-powersave
+#{_prefix}/lib/tuned/enterprise-storage
+#{_prefix}/lib/tuned/spindown-disk
+#doc %{_mandir}/man7/tuned-profiles-compat.7*
