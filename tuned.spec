@@ -2,8 +2,8 @@
 
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
-Version:	2.23.0
-Release:	2
+Version:	2.26.0
+Release:	1
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
