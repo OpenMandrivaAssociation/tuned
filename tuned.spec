@@ -11,6 +11,7 @@ Source0:	https://github.com/redhat-performance/tuned/archive/%{name}-%{version}.
 Patch0:		0002-get-CPE-string-from-etc-os-release-rather-than-the-m.patch  
 BuildArch:	noarch
 Requires(post):	virt-what
+BuildRequires:  make
 BuildRequires:	systemd-rpm-macros
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python%{pyver}dist(six)
