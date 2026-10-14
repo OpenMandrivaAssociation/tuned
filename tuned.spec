@@ -3,7 +3,7 @@
 Summary:	A dynamic adaptive system tuning daemon
 Name:		tuned
 Version:	2.23.0
-Release:	2
+Release:	3
 License:	GPLv2+
 URL:		https://github.com/redhat-performance/tuned
 Group:		System/Kernel and hardware
@@ -13,7 +13,7 @@ BuildArch:	noarch
 Requires(post):	virt-what
 BuildRequires:  make
 BuildRequires:	systemd-rpm-macros
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	python%{pyver}dist(six)
 Requires:	python%{pyver}dist(decorator)
 Requires:	python%{pyver}dist(configobj)
